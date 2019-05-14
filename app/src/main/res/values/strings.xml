@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Stopwatch</string>
+    <string name="expired">Expired</string>
+    <string name="button_start">Start</string>
+    <string name="button_start_again">Start another</string>
+    <string name="form_dialog_title">Enter minutes below 60</string>
+    <string name="minutes_input">Enter minutes between 0 - 60</string>
+</resources>

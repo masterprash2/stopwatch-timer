@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+>
+
+    <data>
+        <variable name="viewModel"
+                  type="life.circles.stopwatch.home.viewModel.StopWatchScreenData"/>
+        <variable name="controller"
+                  type="life.circles.stopwatch.home.viewModel.StopWatchViewModel"/>
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <TextView
+                android:text="@{viewModel.timerString}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timer" android:textSize="36sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="20dp"
+                android:tooltipText="25:00"
+                app:layout_constraintBottom_toTopOf="@+id/expired"/>
+        <Button
+                android:text="@{viewModel.buttonText}"
+                android:tooltipText="Start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isTimerRunning()? View.INVISIBLE : View.VISIBLE}"
+                android:onClick="@{()-> controller.beginStopWatch()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:id="@+id/startButton"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+                android:text="@string/expired"
+                android:layout_width="wrap_content"
+                android:visibility="@{viewModel.isExpired()? View.VISIBLE : View.INVISIBLE}"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/expired" android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/startButton"
+                android:textSize="24sp" android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
