@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -19,6 +20,10 @@ import java.util.concurrent.TimeUnit
 class AndroidSystemTimeGateway(
     private val context: Context
 ) : SystemTimeGateway {
+
+    init {
+        context.registerReceiver(StopwatchReceiver(), IntentFilter.create("expiryCheck","text/html"))
+    }
 
 
     private val handler = Handler()
@@ -48,11 +53,13 @@ class AndroidSystemTimeGateway(
     }
 
     override fun registerExpiryAlarmAfter(remainingTime: Long) {
+        val intent = Intent(context, StopwatchReceiver::class.java)
+        intent.action = "expiryCheck"
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             context.getSystemService(Context.ALARM_SERVICE) as AlarmManager,
-            AlarmManager.ELAPSED_REALTIME,
-            remainingTime,
-            PendingIntent.getBroadcast(context, 2, Intent(context, StopwatchReceiver::class.java), PendingIntent.FLAG_ONE_SHOT)
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis()+remainingTime,
+            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         )
     }
 
